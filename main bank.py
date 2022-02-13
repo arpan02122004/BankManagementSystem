@@ -1,31 +1,39 @@
 import mysql.connector as sql
 import datetime as dt
+import json
+import base64
 
-conn = sql.connect(host='localhost', user='root', passwd='manager', database='bank')
+with open('password.json', 'r') as openfile:
+    credsdic = json.load(openfile)
+
+conn = sql.connect(host='localhost', user='root', passwd=credsdic["databasepsswd"], database='bank')
 cur = conn.cursor()
 
-print('=========================WELCOME TO STARK BANK============================================================')
+print('=========================WELCOME TO ARPAN BANK============================================================')
 
 print(dt.datetime.now())
-print('1.REGISTER')
-print()
-print('2.LOGIN')
-print()
+print('1.REGISTER\n')
+print('2.LOGIN\n')
 
 n = int(input('enter your choice='))
 print()
 
 if n == 1:
-    name = input('Enter a Username=')
-    print()
-    passwd = int(input('Enter a 4 DIGIT Password='))
-    print()
-    V_SQLInsert = "INSERT  INTO user_table (passwrd,username) values (" + str(passwd) + ",' " + name + " ') "
-    cur.execute(V_SQLInsert)
-    conn.commit()
-    print()
-    print('USER created successfully')
-    import menu
+    print("Authentication.....")
+    password_admin = input("Enter admin password : ")
+    if str(base64.b64encode(password_admin.encode('utf-8'))) == str(credsdic['adminaccess']):
+        name = input('Enter a Username=')
+        print()
+        passwd = int(input('Enter a 4 DIGIT Password='))
+        print()
+        V_SQLInsert = "INSERT  INTO user_table (passwrd,username) values (" + str(passwd) + ",' " + name + " ') "
+        cur.execute(V_SQLInsert)
+        conn.commit()
+        print()
+        print('USER created successfully')
+        import menu
+    else:
+        print("\n INCORRECT PASSWORD \n ")
 
 if n == 2:
     name = input('Enter your Username=')
