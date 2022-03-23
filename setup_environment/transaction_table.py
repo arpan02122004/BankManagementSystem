@@ -13,4 +13,4 @@ cur.execute('create table transactions(acct_no int(11),date date ,withdrawal_amt
 
 conn.commit()
 conn.close()
-cur.cllose()
+cur.close()

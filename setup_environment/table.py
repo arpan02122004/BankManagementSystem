@@ -17,4 +17,4 @@ cur.execute('create table customer_details(acct_no int primary key,acct_name var
 
 conn.commit()
 conn.close()
-cur.cllose()
+cur.close()
